@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.myandroid.mygorod.R;
+import com.myandroid.mygorod.activities.DetailsActivity;
 import com.myandroid.mygorod.activities.UnitsActivity;
 import com.myandroid.mygorod.adapters.OgorodAdapter;
 import com.myandroid.mygorod.adapters.PlantAdapter;
@@ -40,15 +41,14 @@ public class PlantsFragment extends Fragment {
         getPlants();
         showPlants(rootView);
 
-//        listPlantsOnYourOgorod.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(getActivity(), UnitsActivity.class);
-//
-//                intent.putExtra(getString(R.string.ogorod_key), elements.get(position));
-//                startActivity(intent);
-//            }
-//        });
+        listPlantsOnYourOgorod.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), DetailsActivity.class);
+
+                startActivity(intent);
+            }
+        });
 
         return rootView;
     }

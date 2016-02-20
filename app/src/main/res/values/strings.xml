@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyGorod</string>
+    <string name="app_name">Мій город</string>
 
     <string name="drawer_item_gorods">Мої городи</string>
     <string name="drawer_item_workers">Мої працівники(опціонально)</string>
@@ -9,8 +9,12 @@
     <string name="drawer_item_about">Про розробників</string>
     <string name="title_activity_main_activity_test">MainActivityTest</string>
 
-    <string name="units_name">Схема городу</string>
+    <string name="activity_units_name">Схема городу</string>
+    <string name="activity_details_name">Догляд</string>
 
     <string name="ogorod_key">ogorod_key</string>
     <string name="error_layout_message"> Sorry, Guys, but its not working</string>
+
+    <string name="button_login">Увійти</string>
+
 </resources>
