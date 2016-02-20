@@ -36,5 +36,4 @@ public class UnitsFragment extends Fragment {
 
         return rootView;
     }
-
 }

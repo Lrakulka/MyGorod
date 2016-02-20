@@ -44,7 +44,7 @@ public class PlantAdapter extends ArrayAdapter {
         }
 
         Element item = (Element) data.get(position);
-        holder.idElement = item.getIdElement();
+
         holder.nameElement.setText(item.getName());
         holder.pictureElement.setImageResource(R.drawable.carrot);
         return row;

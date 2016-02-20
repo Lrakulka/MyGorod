@@ -1,26 +1,38 @@
 package com.myandroid.mygorod.entities;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 //for example картошка, буряк, ...
 public class Element  implements Serializable {
 
-    private int idElement;
+    private String color;
     private String name;
+    private Bitmap image;
     private String description;
 
-    public Element(int idElement, String name, String description) {
-        this.idElement = idElement;
+    public Element(String color, String name, Bitmap image, String description) {
+        this.color = color;
         this.name = name;
+        this.image = image;
         this.description = description;
     }
 
-    public int getIdElement() {
-        return idElement;
+    public String getColor() {
+        return color;
     }
 
-    public void setIdElement(int idElement) {
-        this.idElement = idElement;
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public void setImage(Bitmap image) {
+        this.image = image;
     }
 
     public String getName() {
