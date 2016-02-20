@@ -32,10 +32,9 @@ public class UnitsFragment extends Fragment {
         Log.v(LOG_TAG,"idOgorod = " + ogorofMap);
         View rootView = inflater.inflate(R.layout.fragment_units, container,false);
 
-
         TextView textIdOgorod = (TextView)rootView.findViewById(R.id.textView);
 
-        String textForSasha = "idOgorod = " + String.valueOf(ogorofMap);
+        String textForSasha = "idOgorod = " + String.valueOf(ogorofMap.getIdOgorod()+1);
         textIdOgorod.setText(textForSasha.toString());
         return rootView;
     }
