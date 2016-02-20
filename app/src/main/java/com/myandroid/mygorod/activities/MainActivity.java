@@ -1,6 +1,7 @@
 package com.myandroid.mygorod.activities;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.myandroid.mygorod.fragments.OgorodFragment;
 import com.myandroid.mygorod.R;
+import com.myandroid.mygorod.fragments.PlantsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -87,20 +89,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setOnDrawerItemClickListener(int position) {
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
         switch (position) {
             case 1:
                 Toast.makeText(this, "Position = " + position, Toast.LENGTH_SHORT).show();
+                transaction.replace(R.id.container, new OgorodFragment());
+                transaction.addToBackStack(null);
+
                 break;
             case 2:
                 Toast.makeText(this, "Position = " + position, Toast.LENGTH_SHORT).show();
                 break;
             case 3:
                 Toast.makeText(this, "Position = " + position, Toast.LENGTH_SHORT).show();
-//
-//                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//                transaction.replace(R.id.container, new UnitsFragment());
-//                //transaction.addToBackStack(null);
-//                transaction.commit();
+
+                transaction.replace(R.id.container, new PlantsFragment());
+                transaction.addToBackStack(null);
 
                 break;
             case 4:
@@ -117,6 +123,16 @@ public class MainActivity extends AppCompatActivity {
                 break;
             default:
                 Toast.makeText(this, "Position = " + position, Toast.LENGTH_SHORT).show();
+        }
+        transaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0 ){
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
         }
     }
 }
