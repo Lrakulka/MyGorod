@@ -35,7 +35,7 @@ public class OgorodFragment extends Fragment {
     private void getOgorods() {
         ogorods = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            ogorods.add(new OgorodItem(i,"Ogorod "+i,"picture"));
+            ogorods.add(new OgorodItem(i,"Ogorod "+(i+1),"picture"));
         }
     }
 
