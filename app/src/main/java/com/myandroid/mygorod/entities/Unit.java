@@ -11,7 +11,14 @@ public class Unit implements Serializable {
     private Integer weight;
     private Integer height;
     private Element element;
-    private Garden garden;
+
+    public Unit(Integer x, Integer y, Integer weight, Integer height, Element element) {
+        this.x = x;
+        this.y = y;
+        this.weight = weight;
+        this.height = height;
+        this.element = element;
+    }
 
     public Integer getX() {
         return x;
@@ -53,11 +60,4 @@ public class Unit implements Serializable {
         this.element = element;
     }
 
-    public Garden getGarden() {
-        return garden;
-    }
-
-    public void setGarden(Garden garden) {
-        this.garden = garden;
-    }
 }

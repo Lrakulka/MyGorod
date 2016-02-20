@@ -3,6 +3,7 @@ package com.myandroid.mygorod.fragments;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -55,7 +56,7 @@ public class PlantsFragment extends Fragment {
     private void getPlants() {
         elements = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            elements.add(new Element("123", "Рослина №"+(i+1), BitmapFactory.decodeResource(getResources(), R.drawable.carrot), "description"));
+            elements.add(new Element("Рослина №"+(i+1), BitmapFactory.decodeResource(getResources(), R.drawable.carrot), String.valueOf(Color.CYAN), "description"));
         }
     }
 
