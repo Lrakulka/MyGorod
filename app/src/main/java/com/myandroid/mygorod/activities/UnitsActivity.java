@@ -1,8 +1,11 @@
-package com.myandroid.mygorod;
+package com.myandroid.mygorod.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+
+import com.myandroid.mygorod.R;
+import com.myandroid.mygorod.fragments.UnitsFragment;
 
 public class UnitsActivity extends AppCompatActivity{
     @Override

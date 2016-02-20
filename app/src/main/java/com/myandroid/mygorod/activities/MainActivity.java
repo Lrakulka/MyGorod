@@ -1,7 +1,6 @@
-package com.myandroid.mygorod;
+package com.myandroid.mygorod.activities;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +14,8 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.myandroid.mygorod.fragments.OgorodFragment;
+import com.myandroid.mygorod.R;
 
 public class MainActivity extends AppCompatActivity {
 
