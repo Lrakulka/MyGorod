@@ -1,11 +1,13 @@
 package com.myandroid.mygorod;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -28,6 +30,15 @@ public class OgorodFragment extends Fragment {
 
         getOgorods();
         showOgorods(rootView);
+
+        listOgorods.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), UnitsActivity.class);
+                intent.putExtra("idOgorod", position);
+                startActivity(intent);
+            }
+        });
 
         return rootView;
     }
