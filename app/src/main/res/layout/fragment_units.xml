@@ -17,6 +17,13 @@
     <Button
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_x="50dp"
+        android:layout_y="100dp"
+        android:id="@+id/button3" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_x="200dp"
         android:layout_y="100dp"
         android:id="@+id/button2" />

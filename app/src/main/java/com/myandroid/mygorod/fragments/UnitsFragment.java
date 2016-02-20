@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.myandroid.mygorod.entities.OgorodItem;
@@ -24,18 +25,15 @@ public class UnitsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        View rootView;
         Intent intent = getActivity().getIntent();
         if (intent != null) {
             ogorofMap = (OgorodItem) intent.getSerializableExtra(getString(R.string.ogorod_key));
+            rootView = inflater.inflate(R.layout.fragment_units, container,false);
+        } else {
+            rootView = inflater.inflate(R.layout.error, container,false);
         }
-        Log.v(LOG_TAG,"idOgorod = " + ogorofMap);
-        View rootView = inflater.inflate(R.layout.fragment_units, container,false);
 
-        TextView textIdOgorod = (TextView)rootView.findViewById(R.id.textView);
-
-        String textForSasha = "idOgorod = " + String.valueOf(ogorofMap.getIdOgorod()+1);
-        textIdOgorod.setText(textForSasha.toString());
         return rootView;
     }
 

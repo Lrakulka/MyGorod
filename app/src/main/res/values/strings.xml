@@ -12,4 +12,5 @@
     <string name="units_name">Схема городу</string>
 
     <string name="ogorod_key">ogorod_key</string>
+    <string name="error_layout_message"> Sorry Guys but it's not working</string>
 </resources>
