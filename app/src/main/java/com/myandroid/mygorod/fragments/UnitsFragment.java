@@ -50,15 +50,12 @@ public class UnitsFragment extends Fragment {
                 layoutMapUnit.setY(unit.getY());
                 layoutUnitParams = new LinearLayout.LayoutParams( unit.getWeight(), unit.getHeight());
 
-                //Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.gorods);
                 Bitmap image = unit.getElement().getImage();
                 Bitmap newBitmap = Bitmap.createBitmap(image.getWidth(), image.getHeight(), image.getConfig());
                 Canvas canvas = new Canvas(newBitmap);
                 canvas.drawColor(unit.getElement().getColor());
                 canvas.drawBitmap(image, 0, 0, null);
                 unitBackground = new BitmapDrawable(newBitmap);
-
-                //unitBackground = new BitmapDrawable(unit.getElement().getImage());
                 unitBackground.setTileModeX(Shader.TileMode.REPEAT);
                 unitBackground.setTileModeY(Shader.TileMode.REPEAT);
                 layoutMapUnit.setBackgroundDrawable(unitBackground);
