@@ -1,9 +1,11 @@
 package com.myandroid.mygorod.activities;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +30,10 @@ import com.myandroid.mygorod.fragments.OgorodFragment;
 import com.myandroid.mygorod.R;
 import com.myandroid.mygorod.fragments.PlantsFragment;
 
+
+
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -50,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         login = (EditText) findViewById(R.id.editTextLogin);
         password = (EditText) findViewById(R.id.editTextPass);
         final Button button_authorization = (Button) findViewById(R.id.button_authorization);
-
 
         if (!sharedpreferences.getString(APP_PREFERENCES_LOGIN, "login").equals("1")) {
             login.setVisibility(View.VISIBLE);
@@ -183,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 7:
                 Toast.makeText(this, "Position = " + position, Toast.LENGTH_SHORT).show();
+                logInOnServer();
                 break;
             default:
                 Toast.makeText(this, "Position = " + position, Toast.LENGTH_SHORT).show();
@@ -198,4 +204,77 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
+    private void logInOnServer(){
+        //new PostRequest(this).execute();
+    }
+//
+//    private class PostRequest extends AsyncTask<String, Void, Void> {
+//
+//        private final Context context;
+//
+//        public PostClass(Context c){
+//            this.context = c;
+//        }
+//
+//        protected void onPreExecute(){
+//            progress = new ProgressDialog(this.context);
+//            progress.setMessage("Loading");
+//            progress.show();
+//        }
+//
+//        @Override
+//        protected Void doInBackground(String... params) {
+//            try {
+//
+//                final TextView outputView = (TextView) findViewById(R.id.showOutput);
+//                URL url = new URL("Your URL");
+//
+//                HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+//                String urlParameters = "fizz=buzz";
+//                connection.setRequestMethod("POST");
+//                connection.setRequestProperty("USER-AGENT", "Mozilla/5.0");
+//                connection.setRequestProperty("ACCEPT-LANGUAGE", "en-US,en;0.5");
+//                connection.setDoOutput(true);
+//                DataOutputStream dStream = new DataOutputStream(connection.getOutputStream());
+//                dStream.writeBytes(urlParameters);
+//                dStream.flush();
+//                dStream.close();
+//                int responseCode = connection.getResponseCode();
+//
+//                final StringBuilder output = new StringBuilder("Request URL " + url);
+//                output.append(System.getProperty("line.separator") + "Request Parameters " + urlParameters);
+//                output.append(System.getProperty("line.separator")  + "Response Code " + responseCode);
+//                output.append(System.getProperty("line.separator")  + "Type " + "POST");
+//                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//                String line = "";
+//                StringBuilder responseOutput = new StringBuilder();
+//                System.out.println("output===============" + br);
+//                while((line = br.readLine()) != null ) {
+//                    responseOutput.append(line);
+//                }
+//                br.close();
+//
+//                output.append(System.getProperty("line.separator") + "Response " + System.getProperty("line.separator") + System.getProperty("line.separator") + responseOutput.toString());
+//
+//                MainActivity.this.runOnUiThread(new Runnable() {
+//
+//                    @Override
+//                    public void run() {
+//                        outputView.setText(output);
+//                        progress.dismiss();
+//                    }
+//                });
+//
+//            } catch (MalformedURLException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }
+//    }
+
 }
