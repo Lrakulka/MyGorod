@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.AbsoluteLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.myandroid.mygorod.entities.Garden;
 import com.myandroid.mygorod.R;
@@ -27,6 +29,7 @@ import java.util.List;
 
 public class UnitsFragment extends Fragment {
 
+    private static final Integer TEXT_SIZE = 20;
     private final String LOG_TAG = UnitsFragment.class.getSimpleName();
     private ArrayList<Unit> units;
 
@@ -38,13 +41,14 @@ public class UnitsFragment extends Fragment {
         LinearLayout layoutMapUnit;
         LinearLayout.LayoutParams layoutUnitParams;
         BitmapDrawable unitBackground;
+        TextView textView;
 
         Intent intent = getActivity().getIntent();
         if (intent != null) {
             units = (ArrayList<Unit>) intent.getSerializableExtra(getString(R.string.ogorod_key));
             rootView = inflater.inflate(R.layout.fragment_units, container,false);
             mapContainer = (AbsoluteLayout) rootView.findViewById(R.id.mapcontainer);
-            for (Unit unit : units) {
+            for (final Unit unit : units) {
                 layoutMapUnit = new LinearLayout(getContext());
                 layoutMapUnit.setX(unit.getX());
                 layoutMapUnit.setY(unit.getY());
@@ -59,6 +63,21 @@ public class UnitsFragment extends Fragment {
                 unitBackground.setTileModeX(Shader.TileMode.REPEAT);
                 unitBackground.setTileModeY(Shader.TileMode.REPEAT);
                 layoutMapUnit.setBackgroundDrawable(unitBackground);
+                //--
+                layoutMapUnit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getContext(), unit.getElement().getName(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+                        //---
+                if (unit.getTasks() != null && unit.getTasks().size() > 0) {
+                    textView = new TextView(getContext());
+                    textView.setTextSize(TEXT_SIZE);
+                    textView.setBackgroundColor(Color.WHITE);
+                    textView.setText(String.valueOf(unit.getTasks().size()));
+                    layoutMapUnit.addView(textView);
+                }
                 mapContainer.addView(layoutMapUnit, layoutUnitParams);
             }
         } else {
