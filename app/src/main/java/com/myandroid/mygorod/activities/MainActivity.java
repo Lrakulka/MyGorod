@@ -1,10 +1,19 @@
 package com.myandroid.mygorod.activities;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -23,16 +32,70 @@ public class MainActivity extends AppCompatActivity {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
 
+    private static final String APP_PREFERENCES = "preferences";
+    private static final String APP_PREFERENCES_LOGIN = "login";
+    private SharedPreferences sharedpreferences;
+    private SharedPreferences.Editor editor;
+
+    private EditText login;
+    private EditText password;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new OgorodFragment())
-                    .commit();
+
+        sharedpreferences = this.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+
+        login = (EditText) findViewById(R.id.editTextLogin);
+        password = (EditText) findViewById(R.id.editTextPass);
+        final Button button_authorization = (Button) findViewById(R.id.button_authorization);
+
+
+        if (!sharedpreferences.getString(APP_PREFERENCES_LOGIN, "login").equals("1")) {
+            login.setVisibility(View.VISIBLE);
+            button_authorization.setVisibility(View.VISIBLE);
+            password.setVisibility(View.VISIBLE);
+
+            button_authorization.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (checkAuthorization()) {
+                        editor = sharedpreferences.edit();
+                        editor.putString(APP_PREFERENCES_LOGIN, login.getText().toString());
+                        editor.apply();
+
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(password.getWindowToken(), 0);
+
+                        login.setVisibility(View.GONE);
+                        button_authorization.setVisibility(View.GONE);
+                        password.setVisibility(View.GONE);
+                        logInSuccess();
+                    } else {
+                        login.setText("");
+                        password.setText("");
+                        Toast.makeText(getBaseContext(), "Неправильний логін або пароль!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        } else {
+            logInSuccess();
         }
+    }
+
+    private void logInSuccess() {
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.container, new OgorodFragment())
+                .commit();
         setNavigationDrawer();
+    }
+
+    private boolean checkAuthorization() {
+        if (login.getText().toString().equals("1")) {
+            return true;
+        } else
+            return false;
     }
 
     private void setNavigationDrawer() {
@@ -129,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() > 0 ){
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
             getFragmentManager().popBackStack();
         } else {
             super.onBackPressed();

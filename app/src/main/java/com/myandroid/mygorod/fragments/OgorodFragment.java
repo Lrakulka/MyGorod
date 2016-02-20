@@ -20,6 +20,7 @@ import com.myandroid.mygorod.entities.Unit;
 import java.util.ArrayList;
 
 public class OgorodFragment extends Fragment {
+
     ListView listOgorods;
     OgorodAdapter adapter;
 
