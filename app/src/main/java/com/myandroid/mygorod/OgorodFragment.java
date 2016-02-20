@@ -13,7 +13,6 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class OgorodFragment extends Fragment {
-
     ListView listOgorods;
     OgorodAdapter adapter;
 
@@ -35,7 +34,8 @@ public class OgorodFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), UnitsActivity.class);
-                intent.putExtra("idOgorod", position);
+
+                intent.putExtra(getString(R.string.ogorod_key), ogorods.get(position));
                 startActivity(intent);
             }
         });

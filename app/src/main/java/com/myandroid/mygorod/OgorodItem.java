@@ -1,6 +1,8 @@
 package com.myandroid.mygorod;
 
-public class OgorodItem {
+import java.io.Serializable;
+
+public class OgorodItem implements Serializable {
 
     private int idOgorod;
     private String name;
