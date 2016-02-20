@@ -1,6 +1,7 @@
 package com.myandroid.mygorod.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by asd on 20/02/16.
@@ -11,8 +12,18 @@ public class Unit implements Serializable {
     private Integer weight;
     private Integer height;
     private Element element;
+    private ArrayList<Task> tasks;
 
-    public Unit(Integer x, Integer y, Integer weight, Integer height, Element element) {
+    public ArrayList<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(ArrayList<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public Unit(Integer x, Integer y, Integer weight, Integer height, Element element, ArrayList<Task> tasks) {
+        this.tasks = tasks;
         this.x = x;
         this.y = y;
         this.weight = weight;

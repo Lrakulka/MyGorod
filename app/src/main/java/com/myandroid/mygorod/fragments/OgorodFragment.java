@@ -18,10 +18,12 @@ import com.myandroid.mygorod.activities.UnitsActivity;
 import com.myandroid.mygorod.entities.Boss;
 import com.myandroid.mygorod.entities.Element;
 import com.myandroid.mygorod.entities.Garden;
+import com.myandroid.mygorod.entities.Task;
 import com.myandroid.mygorod.entities.Unit;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class OgorodFragment extends Fragment implements Serializable {
     ListView listOgorods;
@@ -47,13 +49,17 @@ public class OgorodFragment extends Fragment implements Serializable {
                 Intent intent = new Intent(getActivity(), UnitsActivity.class);
 
                 //--
+                final ArrayList<Task> tasks = new ArrayList<Task>();
+                tasks.add(new Task(new Date(), "Part1", "kartoha1"));
+                tasks.add(new Task(new Date(), "Part2", "kartoha2"));
+                tasks.add(new Task(new Date(), "Part3", "kartoha3"));
                 gardens = new ArrayList<Garden>() {
                     {
                         add(new Garden("Ogorod1", new Boss(), 0, 0, new ArrayList<Unit>(){
                             {
-                                add(new Unit(0, 0, 200, 300, new Element("Pat1", BitmapFactory.decodeResource(getResources(), R.drawable.chevron_right), String.valueOf(Color.CYAN), "p1")));
-                                add(new Unit(200, 0, 100, 400, new Element("Pat2", BitmapFactory.decodeResource(getResources(), R.drawable.gorods), String.valueOf(Color.YELLOW), "p2")));
-                                add(new Unit(0, 300, 200, 100, new Element("Pat3", BitmapFactory.decodeResource(getResources(), R.drawable.chevron_right), String.valueOf(Color.RED), "p3")));
+                                add(new Unit(0, 0, 200, 300, new Element("Pat1", BitmapFactory.decodeResource(getResources(), R.drawable.chevron_right), String.valueOf(Color.CYAN), "p1"), tasks));
+                                add(new Unit(200, 0, 100, 400, new Element("Pat2", BitmapFactory.decodeResource(getResources(), R.drawable.gorods), String.valueOf(Color.YELLOW), "p2"), null));
+                                add(new Unit(0, 300, 200, 100, new Element("Pat3", BitmapFactory.decodeResource(getResources(), R.drawable.chevron_right), String.valueOf(Color.RED), "p3"), tasks));
                             }
                         }));
                     }
