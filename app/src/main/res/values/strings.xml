@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MyGorod</string>
+
+    <string name="drawer_item_gorods">Мої городи</string>
+    <string name="drawer_item_workers">Мої працівники(опціонально)</string>
+    <string name="drawer_item_plants">Мої рослини</string>
+    <string name="drawer_item_help">Допомога</string>
+    <string name="drawer_item_settings">Налаштування</string>
+    <string name="drawer_item_about">Про розробників</string>
+
+</resources>
