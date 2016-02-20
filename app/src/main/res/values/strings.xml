@@ -8,4 +8,6 @@
     <string name="drawer_item_settings">Налаштування</string>
     <string name="drawer_item_about">Про розробників</string>
 
+    <string name="units_name">Схема городу</string>
+
 </resources>
