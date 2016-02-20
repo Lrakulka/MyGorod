@@ -1,15 +1,12 @@
 package com.myandroid.mygorod.entities;
 
-import android.graphics.Bitmap;
-import android.graphics.Point;
-
 /**
  * Created by asd on 20/02/16.
  */
 public class Unit {
     private Integer x;
     private Integer y;
-    private Integer weinght;
+    private Integer weight;
     private Integer height;
     private Element element;
     private Garden garden;
@@ -30,12 +27,12 @@ public class Unit {
         this.y = y;
     }
 
-    public Integer getWeinght() {
-        return weinght;
+    public Integer getWeight() {
+        return weight;
     }
 
-    public void setWeinght(Integer weinght) {
-        this.weinght = weinght;
+    public void setWeight(Integer weight) {
+        this.weight = weight;
     }
 
     public Integer getHeight() {
