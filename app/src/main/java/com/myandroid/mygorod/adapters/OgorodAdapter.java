@@ -1,4 +1,4 @@
-package com.myandroid.mygorod;
+package com.myandroid.mygorod.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.myandroid.mygorod.R;
+import com.myandroid.mygorod.entities.OgorodItem;
 
 import java.util.ArrayList;
 

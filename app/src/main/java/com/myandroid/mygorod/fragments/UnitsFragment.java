@@ -1,17 +1,18 @@
-package com.myandroid.mygorod;
+package com.myandroid.mygorod.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.myandroid.mygorod.entities.OgorodItem;
+import com.myandroid.mygorod.R;
 
 public class UnitsFragment extends Fragment {
 
@@ -51,6 +52,7 @@ public class UnitsFragment extends Fragment {
             }
         });
         String textForSasha = "idOgorod = " + String.valueOf(ogorofMap);
+
         textIdOgorod.setText(textForSasha.toString());
         return rootView;
     }

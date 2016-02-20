@@ -1,4 +1,4 @@
-package com.myandroid.mygorod;
+package com.myandroid.mygorod.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,8 +14,10 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.myandroid.mygorod.fragments.OgorodFragment;
+import com.myandroid.mygorod.R;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity{
         setNavigationDrawer();
     }
 
-    private void setNavigationDrawer(){
+    private void setNavigationDrawer() {
 
         AccountHeader accountHeaderResult = initializeAccountHeader();
 
@@ -76,14 +78,16 @@ public class MainActivity extends AppCompatActivity{
                 })
                 .build();
     }
+
     private AccountHeader initializeAccountHeader() {
         return new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.garden_logo)
                 .build();
     }
+
     private void setOnDrawerItemClickListener(int position) {
-        switch (position){
+        switch (position) {
             case 1:
                 Toast.makeText(this, "Position = " + position, Toast.LENGTH_SHORT).show();
                 break;
@@ -92,6 +96,12 @@ public class MainActivity extends AppCompatActivity{
                 break;
             case 3:
                 Toast.makeText(this, "Position = " + position, Toast.LENGTH_SHORT).show();
+//
+//                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//                transaction.replace(R.id.container, new UnitsFragment());
+//                //transaction.addToBackStack(null);
+//                transaction.commit();
+
                 break;
             case 4:
                 Log.v(LOG_TAG, "clicked on DividerDrawerItem = IMPOSSIBLE!!!");

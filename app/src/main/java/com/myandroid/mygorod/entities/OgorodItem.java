@@ -1,4 +1,4 @@
-package com.myandroid.mygorod;
+package com.myandroid.mygorod.entities;
 
 import java.io.Serializable;
 
