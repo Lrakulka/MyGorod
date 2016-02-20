@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import java.io.Serializable;
 
 //for example картошка, буряк, ...
-public class Element  implements Serializable {
+public class Element implements Serializable {
 
     private String color;
     private String name;

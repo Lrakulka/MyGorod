@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.myandroid.mygorod.R;
-import com.myandroid.mygorod.entities.OgorodItem;
+import com.myandroid.mygorod.entities.Garden;
 
 import java.util.ArrayList;
 
@@ -43,8 +43,7 @@ public class OgorodAdapter extends ArrayAdapter {
             holder = (ViewHolder) row.getTag();
         }
 
-        OgorodItem item = (OgorodItem) data.get(position);
-        holder.idOgorod = item.getIdOgorod();
+        Garden item = (Garden) data.get(position);
         holder.nameOgorod.setText(item.getName());
         holder.pictureOgorod.setImageResource(R.drawable.chevron_right);
         return row;

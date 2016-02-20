@@ -11,9 +11,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.myandroid.mygorod.adapters.OgorodAdapter;
-import com.myandroid.mygorod.entities.OgorodItem;
 import com.myandroid.mygorod.R;
 import com.myandroid.mygorod.activities.UnitsActivity;
+import com.myandroid.mygorod.entities.Boss;
+import com.myandroid.mygorod.entities.Garden;
+import com.myandroid.mygorod.entities.Unit;
 
 import java.util.ArrayList;
 
@@ -21,7 +23,7 @@ public class OgorodFragment extends Fragment {
     ListView listOgorods;
     OgorodAdapter adapter;
 
-    ArrayList<OgorodItem> ogorods;
+    ArrayList<Garden> ogorods;
 
     public OgorodFragment() {
     }
@@ -51,7 +53,7 @@ public class OgorodFragment extends Fragment {
     private void getOgorods() {
         ogorods = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            ogorods.add(new OgorodItem(i,"Город №"+(i+1),"picture"));
+            ogorods.add(new Garden("Город №"+(i+1), new Boss(), 0, 0, new ArrayList<Unit>()));
         }
     }
 

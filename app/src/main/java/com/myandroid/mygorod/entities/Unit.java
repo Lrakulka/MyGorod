@@ -1,9 +1,11 @@
 package com.myandroid.mygorod.entities;
 
+import java.io.Serializable;
+
 /**
  * Created by asd on 20/02/16.
  */
-public class Unit {
+public class Unit implements Serializable {
     private Integer x;
     private Integer y;
     private Integer weight;
