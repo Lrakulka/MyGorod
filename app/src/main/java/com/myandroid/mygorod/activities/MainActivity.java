@@ -30,9 +30,16 @@ import com.myandroid.mygorod.fragments.OgorodFragment;
 import com.myandroid.mygorod.R;
 import com.myandroid.mygorod.fragments.PlantsFragment;
 
+import android.app.ProgressDialog;
 
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText login;
     private EditText password;
+    private ProgressDialog progress;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -187,7 +195,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Position = " + position, Toast.LENGTH_SHORT).show();
                 break;
             case 7:
-                Toast.makeText(this, "Position = " + position, Toast.LENGTH_SHORT).show();
                 logInOnServer();
                 break;
             default:
@@ -205,76 +212,75 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void logInOnServer(){
-        //new PostRequest(this).execute();
+    private void logInOnServer() {
+        new PostRequest(this).execute();
     }
-//
-//    private class PostRequest extends AsyncTask<String, Void, Void> {
-//
-//        private final Context context;
-//
-//        public PostClass(Context c){
-//            this.context = c;
-//        }
-//
-//        protected void onPreExecute(){
-//            progress = new ProgressDialog(this.context);
-//            progress.setMessage("Loading");
-//            progress.show();
-//        }
-//
-//        @Override
-//        protected Void doInBackground(String... params) {
-//            try {
-//
-//                final TextView outputView = (TextView) findViewById(R.id.showOutput);
-//                URL url = new URL("Your URL");
-//
-//                HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-//                String urlParameters = "fizz=buzz";
-//                connection.setRequestMethod("POST");
-//                connection.setRequestProperty("USER-AGENT", "Mozilla/5.0");
-//                connection.setRequestProperty("ACCEPT-LANGUAGE", "en-US,en;0.5");
-//                connection.setDoOutput(true);
-//                DataOutputStream dStream = new DataOutputStream(connection.getOutputStream());
-//                dStream.writeBytes(urlParameters);
-//                dStream.flush();
-//                dStream.close();
-//                int responseCode = connection.getResponseCode();
-//
-//                final StringBuilder output = new StringBuilder("Request URL " + url);
-//                output.append(System.getProperty("line.separator") + "Request Parameters " + urlParameters);
-//                output.append(System.getProperty("line.separator")  + "Response Code " + responseCode);
-//                output.append(System.getProperty("line.separator")  + "Type " + "POST");
-//                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-//                String line = "";
-//                StringBuilder responseOutput = new StringBuilder();
-//                System.out.println("output===============" + br);
-//                while((line = br.readLine()) != null ) {
-//                    responseOutput.append(line);
-//                }
-//                br.close();
-//
-//                output.append(System.getProperty("line.separator") + "Response " + System.getProperty("line.separator") + System.getProperty("line.separator") + responseOutput.toString());
-//
-//                MainActivity.this.runOnUiThread(new Runnable() {
-//
-//                    @Override
-//                    public void run() {
-//                        outputView.setText(output);
-//                        progress.dismiss();
-//                    }
-//                });
-//
-//            } catch (MalformedURLException e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
-//            return null;
-//        }
-//    }
+
+    private class PostRequest extends AsyncTask<String, Void, Void> {
+
+        private final Context context;
+
+        public PostRequest(Context c) {
+            this.context = c;
+        }
+
+        protected void onPreExecute() {
+            progress = new ProgressDialog(this.context);
+            progress.setMessage("Loading");
+            progress.show();
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+            try {
+                URL url = new URL("http://192.168.31.71:8080/api/auth/login");
+
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                String urlParameters = "fizz=buzz";
+                connection.setRequestMethod("POST");
+                //connection.setFixedLengthStreamingMode(param.getBytes().length);
+                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                connection.setDoOutput(true);
+
+
+                DataOutputStream dStream = new DataOutputStream(connection.getOutputStream());
+                dStream.writeBytes(urlParameters);
+                dStream.flush();
+                dStream.close();
+                int responseCode = connection.getResponseCode();
+                Log.v(LOG_TAG,"response code  = " + connection.getResponseCode());
+
+                final StringBuilder output = new StringBuilder("Request URL " + url);
+                output.append(System.getProperty("line.separator") + "Request Parameters " + urlParameters);
+                output.append(System.getProperty("line.separator") + "Response Code " + responseCode);
+                output.append(System.getProperty("line.separator") + "Type " + "POST");
+                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                StringBuilder responseOutput = new StringBuilder();
+                System.out.println("output===============" + br);
+                while ((line = br.readLine()) != null) {
+                    responseOutput.append(line);
+                }
+                br.close();
+
+                output.append(System.getProperty("line.separator") + "Response " + System.getProperty("line.separator") + System.getProperty("line.separator") + responseOutput.toString());
+
+                MainActivity.this.runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        Toast.makeText(context, "output = " + output, Toast.LENGTH_SHORT).show();
+                        progress.dismiss();
+                    }
+                });
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 
 }
