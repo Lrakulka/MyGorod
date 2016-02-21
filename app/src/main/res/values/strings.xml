@@ -13,6 +13,7 @@
     <string name="activity_details_name">Догляд</string>
 
     <string name="ogorod_key">ogorod_key</string>
+    <string name="info_key">info_key</string>
     <string name="error_layout_message"> Sorry, Guys, but its not working</string>
 
     <string name="button_login">Увійти</string>

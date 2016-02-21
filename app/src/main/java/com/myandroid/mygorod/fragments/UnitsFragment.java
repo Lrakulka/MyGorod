@@ -1,5 +1,7 @@
 package com.myandroid.mygorod.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.myandroid.mygorod.activities.DetailsActivity;
 import com.myandroid.mygorod.entities.Garden;
 import com.myandroid.mygorod.R;
 import com.myandroid.mygorod.entities.Unit;
@@ -43,7 +46,7 @@ public class UnitsFragment extends Fragment {
         BitmapDrawable unitBackground;
         TextView textView;
 
-        Intent intent = getActivity().getIntent();
+        final Intent intent = getActivity().getIntent();
         if (intent != null) {
             units = (ArrayList<Unit>) intent.getSerializableExtra(getString(R.string.ogorod_key));
             rootView = inflater.inflate(R.layout.fragment_units, container,false);
@@ -62,12 +65,40 @@ public class UnitsFragment extends Fragment {
                 unitBackground = new BitmapDrawable(newBitmap);
                 unitBackground.setTileModeX(Shader.TileMode.REPEAT);
                 unitBackground.setTileModeY(Shader.TileMode.REPEAT);
+                //-----
+                unit.getElement().setImage(newBitmap);
+                //-----
                 layoutMapUnit.setBackgroundDrawable(unitBackground);
                 //--
                 layoutMapUnit.setOnClickListener(new View.OnClickListener() {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    final String[] mCatsName ={"Інформація", "Завдання"};
+
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getContext(), unit.getElement().getName(), Toast.LENGTH_SHORT).show();
+                        builder.setTitle("Виберіть дію"); // заголовок для диалога
+                        builder.setIcon(R.drawable.paper);
+                        builder.setCancelable(true);
+                        builder.setItems(mCatsName, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int item) {
+                                switch (item) {
+                                    case 0: {
+                                        Intent intent1 = new Intent(getActivity(), DetailsActivity.class);
+                                        intent1.putExtra(getResources().getString(R.string.info_key), unit.getElement());
+                                        startActivity(intent1);
+                                        break;
+                                    }
+                                    case 1: {
+
+                                        break;
+                                    }
+                                }
+                            }
+                        });
+                        builder.setCancelable(false);
+                        AlertDialog alert = builder.create();
+                        alert.show();
                     }
                 });
                         //---
