@@ -20,6 +20,7 @@ import com.myandroid.mygorod.entities.Element;
 import com.myandroid.mygorod.entities.Garden;
 import com.myandroid.mygorod.entities.Task;
 import com.myandroid.mygorod.entities.Unit;
+import com.myandroid.mygorod.entities.Worker;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -53,20 +54,16 @@ public class OgorodFragment extends Fragment implements Serializable {
                 tasks.add(new Task(new Date(), "Part1", "kartoha1"));
                 tasks.add(new Task(new Date(), "Part2", "kartoha2"));
                 tasks.add(new Task(new Date(), "Part3", "kartoha3"));
-                gardens = new ArrayList<Garden>() {
-                    {
-                        add(new Garden("Ogorod1", new Boss(), 0, 0, new ArrayList<Unit>(){
-                            {
-                                add(new Unit(0, 0, 200, 300, new Element("Pat1", BitmapFactory.decodeResource(getResources(), R.drawable.chevron_right), String.valueOf(Color.CYAN), "p1"), tasks));
-                                add(new Unit(200, 0, 100, 400, new Element("Pat2", BitmapFactory.decodeResource(getResources(), R.drawable.gorods), String.valueOf(Color.YELLOW), "p2"), null));
-                                add(new Unit(0, 300, 200, 100, new Element("Pat3", BitmapFactory.decodeResource(getResources(), R.drawable.chevron_right), String.valueOf(Color.RED), "p3"), tasks));
-                            }
-                        }));
-                    }
-                };
+                gardens = new ArrayList<Garden>();
+                gardens.add(new Garden("Ogorod1", new Boss(), 0, 0, new ArrayList<Unit>()));
+                gardens.get(0).getUnits().add(new Unit(0, 0, 200, 300, new Element("Pat1", BitmapFactory.decodeResource(getResources(), R.drawable.chevron_right), String.valueOf(Color.CYAN), "p1"), tasks));
+                gardens.get(0).getUnits().add(new Unit(200, 0, 100, 400, new Element("Pat2", BitmapFactory.decodeResource(getResources(), R.drawable.gorods), String.valueOf(Color.YELLOW), "p2"), null));
+                gardens.get(0).getUnits().add(new Unit(0, 300, 200, 100, new Element("Pat3", BitmapFactory.decodeResource(getResources(), R.drawable.chevron_right), String.valueOf(Color.RED), "p3"), tasks));
+
                 //---
                 ArrayList<Unit> units = (ArrayList<Unit>) gardens.get(0).getUnits();
-                intent.putExtra(getString(R.string.ogorod_key), units);
+                Worker worker = new Worker(142, gardens.get(0));
+                intent.putExtra(getString(R.string.ogorod_key), worker);
                 startActivity(intent);
             }
         });
