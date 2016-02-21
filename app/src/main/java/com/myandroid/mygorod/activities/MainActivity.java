@@ -48,16 +48,15 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String APP_PREFERENCES = "preferences";
     private static final String APP_PREFERENCES_LOGIN = "login";
+    private static final String APP_PREFERENCES_PASS = "pass";
     private SharedPreferences sharedpreferences;
     private SharedPreferences.Editor editor;
 
-    private EditText login;
-    private EditText password;
+    private EditText loginEditText;
+    private EditText passwordEditText;
     private ProgressDialog progress;
     private Button button_authorization;
-
-    private String log;
-    private String pass;
+    
     private String workerId;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -66,35 +65,37 @@ public class MainActivity extends AppCompatActivity {
 
         sharedpreferences = this.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
-        login = (EditText) findViewById(R.id.editTextLogin);
-        password = (EditText) findViewById(R.id.editTextPass);
+        loginEditText = (EditText) findViewById(R.id.editTextLogin);
+        passwordEditText = (EditText) findViewById(R.id.editTextPass);
         button_authorization = (Button) findViewById(R.id.button_authorization);
 
-        if (!sharedpreferences.getString(APP_PREFERENCES_LOGIN, "login").equals("1")) {
-            login.setVisibility(View.VISIBLE);
+        if (!sharedpreferences.getString(APP_PREFERENCES_LOGIN, "login").equals("1")
+                || !sharedpreferences.getString(APP_PREFERENCES_PASS, "pass").equals("1")) {
+            loginEditText.setVisibility(View.VISIBLE);
             button_authorization.setVisibility(View.VISIBLE);
-            password.setVisibility(View.VISIBLE);
+            passwordEditText.setVisibility(View.VISIBLE);
 
             button_authorization.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    log = String.valueOf(login.getText());
-                    pass = String.valueOf(password.getText());
+
+                    editor = sharedpreferences.edit();
+                    editor.putString(APP_PREFERENCES_LOGIN, loginEditText.getText().toString());
+                    editor.putString(APP_PREFERENCES_PASS, passwordEditText.getText().toString());
+                    editor.apply();
+
                     if (checkAuthorization()) {
-                        editor = sharedpreferences.edit();
-                        editor.putString(APP_PREFERENCES_LOGIN, login.getText().toString());
-                        editor.apply();
 
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(password.getWindowToken(), 0);
+                        imm.hideSoftInputFromWindow(passwordEditText.getWindowToken(), 0);
 
-                        login.setVisibility(View.GONE);
+                        loginEditText.setVisibility(View.GONE);
                         button_authorization.setVisibility(View.GONE);
-                        password.setVisibility(View.GONE);
+                        passwordEditText.setVisibility(View.GONE);
                         logInSuccess();
                     } else {
-                        login.setText("");
-                        password.setText("");
+                        loginEditText.setText("");
+                        passwordEditText.setText("");
                     }
                 }
             });
@@ -243,11 +244,12 @@ public class MainActivity extends AppCompatActivity {
             try {
                 URL url = new URL("http://192.168.31.71:8080/api/auth/login");
                 output.append(url);
-                /*String login = "1";//"15@gm.com1";
-                String pass = "1";//"12345678";*/
-                String urlParameters = "username=" + log + "&password=" + pass;
+
+                String urlParameters = "username=" + sharedpreferences.getString(APP_PREFERENCES_LOGIN, "login")
+                        + "&password=" + sharedpreferences.getString(APP_PREFERENCES_PASS, "pass");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
+                connection.setConnectTimeout(5000);
                 //connection.setFixedLengthStreamingMode(param.getBytes().length);
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 connection.setDoOutput(true);
@@ -272,7 +274,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                     br.close();
 
+
+
                     workerId = connection.getHeaderField("Set-Cookie").substring(connection.getHeaderField("Set-Cookie").indexOf("=") + 1, connection.getHeaderField("Set-Cookie").indexOf(";"));
+
                     output.append(System.getProperty("line.separator") + "Response " + connection.getHeaderField("Set-Cookie") + System.getProperty("line.separator") + System.getProperty("line.separator") + responseOutput.toString());
                 }
 
@@ -281,21 +286,18 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
-                MainActivity.this.runOnUiThread(new Runnable() {
 
+                MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         if (responseCode == 200) {
-                            editor = sharedpreferences.edit();
-                            editor.putString(APP_PREFERENCES_LOGIN, login.getText().toString());
-                            editor.apply();
 
                             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(password.getWindowToken(), 0);
+                            imm.hideSoftInputFromWindow(passwordEditText.getWindowToken(), 0);
 
-                            login.setVisibility(View.GONE);
+                            loginEditText.setVisibility(View.GONE);
                             button_authorization.setVisibility(View.GONE);
-                            password.setVisibility(View.GONE);
+                            passwordEditText.setVisibility(View.GONE);
                             logInSuccess();
                             // Toast.makeText(context, "output = " + output, Toast.LENGTH_SHORT).show();
                             Log.v(LOG_TAG, "output = " + output);
@@ -303,9 +305,10 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             if (responseCode == 401) {
                                 Toast.makeText(getBaseContext(), "Неправильний логін або пароль!", Toast.LENGTH_SHORT).show();
-
+                                progress.dismiss();
                             } else {
                                 Toast.makeText(getBaseContext(), "Помилка", Toast.LENGTH_LONG).show();
+                                progress.dismiss();
                             }
                         }
                     }
