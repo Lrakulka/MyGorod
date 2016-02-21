@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myandroid.mygorod.activities.DetailsActivity;
+import com.myandroid.mygorod.activities.TaskActivity;
 import com.myandroid.mygorod.entities.Garden;
 import com.myandroid.mygorod.R;
 import com.myandroid.mygorod.entities.Unit;
@@ -94,7 +95,7 @@ public class UnitsFragment extends Fragment {
                                     }
                                     case 1: {
                                         //____
-                                        Intent intent2 = new Intent(getActivity(), DetailsActivity.class);
+                                        Intent intent2 = new Intent(getActivity(), TaskActivity.class);
                                         intent2.putExtra(getResources().getString(R.string.info_garden), worker);
                                         startActivity(intent2);
                                         break;

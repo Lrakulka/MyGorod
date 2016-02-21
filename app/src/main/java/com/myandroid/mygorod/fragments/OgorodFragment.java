@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.myandroid.mygorod.adapters.OgorodAdapter;
 import com.myandroid.mygorod.R;
@@ -29,10 +30,13 @@ import java.util.Date;
 public class OgorodFragment extends Fragment implements Serializable {
     ListView listOgorods;
     OgorodAdapter adapter;
-
+    Worker worker;
     ArrayList<Garden> gardens;
 
-    public OgorodFragment() {
+    public OgorodFragment() {}
+
+    public OgorodFragment(Worker worker) {
+        this.worker = worker;
     }
 
     @Nullable
@@ -62,7 +66,8 @@ public class OgorodFragment extends Fragment implements Serializable {
 
                 //---
                 ArrayList<Unit> units = (ArrayList<Unit>) gardens.get(0).getUnits();
-                Worker worker = new Worker(142, gardens.get(0));
+                Toast.makeText(getContext(), worker.getId(), Toast.LENGTH_LONG).show();
+                Worker worker = new Worker("142", gardens.get(0));
                 intent.putExtra(getString(R.string.ogorod_key), worker);
                 startActivity(intent);
             }

@@ -18,5 +18,6 @@
     <string name="info_garden">info_garden</string>
 
     <string name="button_login">Увійти</string>
+    <string name="title_activity_task">TaskActivity</string>
 
 </resources>
