@@ -23,9 +23,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myandroid.mygorod.activities.DetailsActivity;
+import com.myandroid.mygorod.activities.TaskActivity;
 import com.myandroid.mygorod.entities.Garden;
 import com.myandroid.mygorod.R;
 import com.myandroid.mygorod.entities.Unit;
+import com.myandroid.mygorod.entities.Worker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,10 +47,13 @@ public class UnitsFragment extends Fragment {
         LinearLayout.LayoutParams layoutUnitParams;
         BitmapDrawable unitBackground;
         TextView textView;
+        final Worker worker;
 
         final Intent intent = getActivity().getIntent();
         if (intent != null) {
-            units = (ArrayList<Unit>) intent.getSerializableExtra(getString(R.string.ogorod_key));
+            worker = (Worker) intent.getSerializableExtra(getString(R.string.ogorod_key));
+            units = (worker.getGarden().getUnits());
+           // units = (ArrayList<Unit>) intent.getSerializableExtra(getString(R.string.ogorod_key));
             rootView = inflater.inflate(R.layout.fragment_units, container,false);
             mapContainer = (AbsoluteLayout) rootView.findViewById(R.id.mapcontainer);
             for (final Unit unit : units) {
@@ -72,13 +77,12 @@ public class UnitsFragment extends Fragment {
                 //--
                 layoutMapUnit.setOnClickListener(new View.OnClickListener() {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    final String[] mCatsName ={"Інформація", "Завдання"};
+                    final String[] mCatsName ={"Інформація", "Завдання", "Відміна"};
 
                     @Override
                     public void onClick(View v) {
                         builder.setTitle("Виберіть дію"); // заголовок для диалога
                         builder.setIcon(R.drawable.paper);
-                        builder.setCancelable(true);
                         builder.setItems(mCatsName, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
@@ -90,7 +94,11 @@ public class UnitsFragment extends Fragment {
                                         break;
                                     }
                                     case 1: {
-
+                                        //____
+                                        Intent intent2 = new Intent(getActivity(), TaskActivity.class);
+                                        intent2.putExtra(getResources().getString(R.string.info_garden), worker);
+                                        intent2.putExtra(getResources().getString(R.string.item_key), unit);
+                                        startActivity(intent2);
                                         break;
                                     }
                                 }

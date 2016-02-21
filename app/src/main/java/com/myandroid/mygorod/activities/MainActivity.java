@@ -26,6 +26,7 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.myandroid.mygorod.entities.Worker;
 import com.myandroid.mygorod.fragments.OgorodFragment;
 import com.myandroid.mygorod.R;
 import com.myandroid.mygorod.fragments.PlantsFragment;
@@ -40,7 +41,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,7 +54,11 @@ public class MainActivity extends AppCompatActivity {
     private EditText login;
     private EditText password;
     private ProgressDialog progress;
+    private Button button_authorization;
 
+    private String log;
+    private String pass;
+    private String workerId;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         login = (EditText) findViewById(R.id.editTextLogin);
         password = (EditText) findViewById(R.id.editTextPass);
-        final Button button_authorization = (Button) findViewById(R.id.button_authorization);
+        button_authorization = (Button) findViewById(R.id.button_authorization);
 
         if (!sharedpreferences.getString(APP_PREFERENCES_LOGIN, "login").equals("1")) {
             login.setVisibility(View.VISIBLE);
@@ -74,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
             button_authorization.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    log = String.valueOf(login.getText());
+                    pass = String.valueOf(password.getText());
                     if (checkAuthorization()) {
                         editor = sharedpreferences.edit();
                         editor.putString(APP_PREFERENCES_LOGIN, login.getText().toString());
@@ -89,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         login.setText("");
                         password.setText("");
-                        Toast.makeText(getBaseContext(), "Неправильний логін або пароль!", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -100,16 +105,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void logInSuccess() {
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, new OgorodFragment())
+                .add(R.id.container, new OgorodFragment(new Worker(workerId, null)))
                 .commit();
         setNavigationDrawer();
     }
 
     private boolean checkAuthorization() {
-        if (login.getText().toString().equals("1")) {
-            return true;
-        } else
-            return false;
+        logInOnServer();
+        return false;
     }
 
     private void setNavigationDrawer() {
@@ -172,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
         switch (position) {
             case 1:
                 Toast.makeText(this, "Position = " + position, Toast.LENGTH_SHORT).show();
-                transaction.replace(R.id.container, new OgorodFragment());
+                transaction.replace(R.id.container, new OgorodFragment(null));
                 transaction.addToBackStack(null);
 
                 break;
@@ -220,6 +223,7 @@ public class MainActivity extends AppCompatActivity {
     private class PostRequest extends AsyncTask<String, Void, Void> {
 
         private final Context context;
+        private int responseCode;
 
         public PostRequest(Context c) {
             this.context = c;
@@ -233,56 +237,82 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(String... params) {
+
+            final StringBuilder output = new StringBuilder("Request URL ");
+
             try {
                 URL url = new URL("http://192.168.31.71:8080/api/auth/login");
-
+                output.append(url);
+                /*String login = "1";//"15@gm.com1";
+                String pass = "1";//"12345678";*/
+                String urlParameters = "username=" + log + "&password=" + pass;
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                String login = "15@gm.com1";
-                String pass = "12345678";
-                String urlParameters = "username=" + login + "&password=" + pass;
                 connection.setRequestMethod("POST");
-                //connection.setFixedLengthStreamingMode(urlParameters.getBytes().length);
+                //connection.setFixedLengthStreamingMode(param.getBytes().length);
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 connection.setDoOutput(true);
+
 
                 DataOutputStream dStream = new DataOutputStream(connection.getOutputStream());
                 dStream.writeBytes(urlParameters);
                 dStream.flush();
                 dStream.close();
-                int responseCode = connection.getResponseCode();
+                responseCode = connection.getResponseCode();
                 Log.v(LOG_TAG, "response code  = " + connection.getResponseCode());
-
-                final StringBuilder output = new StringBuilder("Request URL " + url);
-                output.append(System.getProperty("line.separator") + "Request Parameters " + urlParameters);
-                output.append(System.getProperty("line.separator") + "Response Code " + responseCode);
-                output.append(System.getProperty("line.separator") + "Type " + "POST");
-                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String line = "";
-                StringBuilder responseOutput = new StringBuilder();
-                System.out.println("output===============" + br);
-                while ((line = br.readLine()) != null) {
-                    responseOutput.append(line);
-                }
-                br.close();
-
-                output.append(System.getProperty("line.separator") + "Response " + System.getProperty("line.separator") + System.getProperty("line.separator") + responseOutput.toString());
-                
-                MainActivity.this.runOnUiThread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        Toast.makeText(context, "output = " + output, Toast.LENGTH_SHORT).show();
-                        progress.dismiss();
+                if (connection.getResponseCode() == 200) {
+                    output.append(System.getProperty("line.separator") + "Request Parameters " + urlParameters);
+                    output.append(System.getProperty("line.separator") + "Response Code " + responseCode);
+                    output.append(System.getProperty("line.separator") + "Type " + "POST");
+                    BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    String line = "";
+                    StringBuilder responseOutput = new StringBuilder();
+                    System.out.println("output===============" + br);
+                    while ((line = br.readLine()) != null) {
+                        responseOutput.append(line);
                     }
-                });
+                    br.close();
+
+                    workerId = connection.getHeaderField("Set-Cookie").substring(connection.getHeaderField("Set-Cookie").indexOf("=") + 1, connection.getHeaderField("Set-Cookie").indexOf(";"));
+                    output.append(System.getProperty("line.separator") + "Response " + connection.getHeaderField("Set-Cookie") + System.getProperty("line.separator") + System.getProperty("line.separator") + responseOutput.toString());
+                }
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                MainActivity.this.runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        if (responseCode == 200) {
+                            editor = sharedpreferences.edit();
+                            editor.putString(APP_PREFERENCES_LOGIN, login.getText().toString());
+                            editor.apply();
+
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(password.getWindowToken(), 0);
+
+                            login.setVisibility(View.GONE);
+                            button_authorization.setVisibility(View.GONE);
+                            password.setVisibility(View.GONE);
+                            logInSuccess();
+                            // Toast.makeText(context, "output = " + output, Toast.LENGTH_SHORT).show();
+                            Log.v(LOG_TAG, "output = " + output);
+                            progress.dismiss();
+                        } else {
+                            if (responseCode == 401) {
+                                Toast.makeText(getBaseContext(), "Неправильний логін або пароль!", Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                Toast.makeText(getBaseContext(), "Помилка", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                });
+
+                return null;
             }
-            return null;
         }
     }
-
 }

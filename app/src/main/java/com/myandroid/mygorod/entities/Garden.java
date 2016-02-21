@@ -1,6 +1,7 @@
 package com.myandroid.mygorod.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,9 +12,9 @@ public class Garden implements Serializable {
     private Boss boss;
     private double latitude;
     private double longitude;
-    private List<Unit> units;
+    private ArrayList<Unit> units;
 
-    public Garden(String name, Boss boss, double latitude, double longitude, List<Unit> units) {
+    public Garden(String name, Boss boss, double latitude, double longitude, ArrayList<Unit> units) {
         this.name = name;
         this.boss = boss;
         this.latitude = latitude;
@@ -21,11 +22,11 @@ public class Garden implements Serializable {
         this.units = units;
     }
 
-    public List<Unit> getUnits() {
+    public ArrayList<Unit> getUnits() {
         return units;
     }
 
-    public void setUnits(List<Unit> units) {
+    public void setUnits(ArrayList<Unit> units) {
         this.units = units;
     }
 

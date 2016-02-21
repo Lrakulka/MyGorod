@@ -1,6 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.myandroid.mygorod">
+<<<<<<< HEAD
     <uses-permission android:name="android.permission.INTERNET" />
+=======
+    <uses-permission android:name="android.permission.INTERNET"/>
+>>>>>>> 2aa2116e4454c35b979c0bc6a523ec30d0c5e796
 
     <application
         android:allowBackup="true"
@@ -9,7 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2aa2116e4454c35b979c0bc6a523ec30d0c5e796
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name">
@@ -22,7 +30,7 @@
         <activity
             android:name=".activities.UnitsActivity"
             android:label="@string/activity_units_name"
-            android:parentActivityName=".activities.MainActivity" >
+            android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
@@ -30,11 +38,14 @@
         <activity
             android:name=".activities.DetailsActivity"
             android:label="@string/activity_details_name"
-            android:parentActivityName=".activities.MainActivity" >
+            android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
+        <activity
+            android:name=".activities.TaskActivity"
+            android:label="@string/title_activity_task"></activity>
     </application>
 
 </manifest>
