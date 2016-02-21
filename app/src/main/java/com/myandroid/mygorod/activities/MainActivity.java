@@ -40,6 +40,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -236,19 +237,20 @@ public class MainActivity extends AppCompatActivity {
                 URL url = new URL("http://192.168.31.71:8080/api/auth/login");
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                String urlParameters = "fizz=buzz";
+                String login = "15@gm.com1";
+                String pass = "12345678";
+                String urlParameters = "username=" + login + "&password=" + pass;
                 connection.setRequestMethod("POST");
-                //connection.setFixedLengthStreamingMode(param.getBytes().length);
+                //connection.setFixedLengthStreamingMode(urlParameters.getBytes().length);
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 connection.setDoOutput(true);
-
 
                 DataOutputStream dStream = new DataOutputStream(connection.getOutputStream());
                 dStream.writeBytes(urlParameters);
                 dStream.flush();
                 dStream.close();
                 int responseCode = connection.getResponseCode();
-                Log.v(LOG_TAG,"response code  = " + connection.getResponseCode());
+                Log.v(LOG_TAG, "response code  = " + connection.getResponseCode());
 
                 final StringBuilder output = new StringBuilder("Request URL " + url);
                 output.append(System.getProperty("line.separator") + "Request Parameters " + urlParameters);
@@ -264,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
                 br.close();
 
                 output.append(System.getProperty("line.separator") + "Response " + System.getProperty("line.separator") + System.getProperty("line.separator") + responseOutput.toString());
-
+                
                 MainActivity.this.runOnUiThread(new Runnable() {
 
                     @Override
