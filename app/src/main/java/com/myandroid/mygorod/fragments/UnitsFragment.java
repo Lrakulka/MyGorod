@@ -97,6 +97,7 @@ public class UnitsFragment extends Fragment {
                                         //____
                                         Intent intent2 = new Intent(getActivity(), TaskActivity.class);
                                         intent2.putExtra(getResources().getString(R.string.info_garden), worker);
+                                        intent2.putExtra(getResources().getString(R.string.item_key), unit);
                                         startActivity(intent2);
                                         break;
                                     }

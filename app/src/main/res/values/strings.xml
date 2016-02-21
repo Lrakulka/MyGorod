@@ -16,8 +16,9 @@
     <string name="info_key">info_key</string>
     <string name="error_layout_message"> Sorry, Guys, but its not working</string>
     <string name="info_garden">info_garden</string>
+    <string name="item_key">item_key</string>
 
     <string name="button_login">Увійти</string>
-    <string name="title_activity_task">TaskActivity</string>
+    <string name="title_activity_task">Список завдань</string>
 
 </resources>

@@ -66,7 +66,7 @@ public class OgorodFragment extends Fragment implements Serializable {
 
                 //---
                 ArrayList<Unit> units = (ArrayList<Unit>) gardens.get(0).getUnits();
-                Toast.makeText(getContext(), worker.getId(), Toast.LENGTH_LONG).show();
+               // Toast.makeText(getContext(), worker.getId(), Toast.LENGTH_LONG).show();
                 Worker worker = new Worker("142", gardens.get(0));
                 intent.putExtra(getString(R.string.ogorod_key), worker);
                 startActivity(intent);
