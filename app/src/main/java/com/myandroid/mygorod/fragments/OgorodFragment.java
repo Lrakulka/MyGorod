@@ -55,19 +55,44 @@ public class OgorodFragment extends Fragment implements Serializable {
 
                 //--
                 final ArrayList<Task> tasks = new ArrayList<Task>();
-                tasks.add(new Task(new Date(), "Part1", "kartoha1"));
-                tasks.add(new Task(new Date(), "Part2", "kartoha2"));
-                tasks.add(new Task(new Date(), "Part3", "kartoha3"));
+                tasks.add(new Task(new Date(), "Полити", "kartoha1"));
+                tasks.add(new Task(new Date(), "Підрізати", "kartoha2"));
+                tasks.add(new Task(new Date(), "Здобрити", "kartoha3"));
                 gardens = new ArrayList<Garden>();
-                gardens.add(new Garden("Ogorod1", new Boss(), 0, 0, new ArrayList<Unit>()));
-                gardens.get(0).getUnits().add(new Unit(0, 0, 200, 300, new Element("Pat1", BitmapFactory.decodeResource(getResources(), R.drawable.chevron_right), String.valueOf(Color.CYAN), "p1"), tasks));
-                gardens.get(0).getUnits().add(new Unit(200, 0, 100, 400, new Element("Pat2", BitmapFactory.decodeResource(getResources(), R.drawable.gorods), String.valueOf(Color.YELLOW), "p2"), null));
-                gardens.get(0).getUnits().add(new Unit(0, 300, 200, 100, new Element("Pat3", BitmapFactory.decodeResource(getResources(), R.drawable.chevron_right), String.valueOf(Color.RED), "p3"), tasks));
+                Garden garden1 = new Garden("Город1", new Boss(), 0, 0, new ArrayList<Unit>());
+                ArrayList<Unit> garden1Unit1 = new ArrayList<Unit>();
+                garden1Unit1.add(new Unit(0, 0, 200, 300, new Element("Картопля", BitmapFactory.decodeResource(getResources(), R.drawable.potatoes), String.valueOf(Color.CYAN), "Берегти від колорадів"), tasks));
+                garden1Unit1.add(new Unit(200, 0, 100, 400, new Element("Помідори", BitmapFactory.decodeResource(getResources(), R.drawable.tomato), String.valueOf(Color.YELLOW), "Фітофтра наш ворог"), null));
+                garden1Unit1.add(new Unit(0, 300, 200, 100, new Element("Огірки", BitmapFactory.decodeResource(getResources(), R.drawable.cucumber), String.valueOf(Color.RED), "Будуть гіркими, якщо не поливати"), tasks));
+                garden1.setUnits(garden1Unit1);
+                gardens.add(garden1);
 
-                //---
-                ArrayList<Unit> units = (ArrayList<Unit>) gardens.get(0).getUnits();
-               // Toast.makeText(getContext(), worker.getId(), Toast.LENGTH_LONG).show();
-                Worker worker = new Worker("142", gardens.get(0));
+                Garden garden2 = new Garden("Город2", new Boss(), 0, 0, new ArrayList<Unit>());
+                ArrayList<Unit> garden1Unit2 = new ArrayList<Unit>();
+                garden1Unit2.add(new Unit(0, 0, 200, 300, new Element("Картопля", BitmapFactory.decodeResource(getResources(), R.drawable.potatoes), String.valueOf(Color.BLUE), "Якась інформація"), tasks));
+                garden1Unit2.add(new Unit(200, 0, 100, 400, new Element("Помідори", BitmapFactory.decodeResource(getResources(), R.drawable.tomato), String.valueOf(Color.GREEN), "Дані"), null));
+                ArrayList<Task> tasks2 = new ArrayList<Task>(tasks);
+                tasks2.add(new Task(new Date(), "Зірвати", "kartoha3"));
+                garden1Unit2.add(new Unit(0, 300, 200, 100, new Element("Огірки", BitmapFactory.decodeResource(getResources(), R.drawable.cucumber), String.valueOf(Color.CYAN), "Якісь дані"), tasks2));
+                garden1Unit2.add(new Unit(0, 400, 300, 100, new Element("Морква", BitmapFactory.decodeResource(getResources(), R.drawable.carrot2), String.valueOf(Color.RED), "Якісь дані..."), tasks2));
+                garden2.setUnits(garden1Unit2);
+                gardens.add(garden2);
+
+                Garden garden3 = new Garden("Город2", new Boss(), 0, 0, new ArrayList<Unit>());
+                ArrayList<Unit> garden1Unit3 = new ArrayList<Unit>();
+                garden1Unit3.add(new Unit(0, 0, 200, 300, new Element("Картопля", BitmapFactory.decodeResource(getResources(), R.drawable.potatoes), String.valueOf(Color.CYAN), "Якась інформація"), tasks2));
+                garden1Unit3.add(new Unit(200, 0, 100, 400, new Element("Помідори", BitmapFactory.decodeResource(getResources(), R.drawable.tomato), String.valueOf(Color.YELLOW), "Дані"), null));
+                ArrayList<Task> tasks3 = new ArrayList<Task>(tasks2);
+                tasks3.add(new Task(new Date(), "Зірвати, полити", "kartoha3"));
+                garden1Unit3.add(new Unit(0, 300, 200, 100, new Element("Огірки", BitmapFactory.decodeResource(getResources(), R.drawable.cucumber), String.valueOf(Color.RED), "Якісь дані"), tasks3));
+                garden3.setUnits(garden1Unit3);
+                gardens.add(garden3);
+
+                if (worker == null) {
+                    worker = new Worker("133", gardens.get(position));
+                } else {
+                    worker.setGarden(gardens.get(position));
+                }
                 intent.putExtra(getString(R.string.ogorod_key), worker);
                 startActivity(intent);
             }
